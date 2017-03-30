@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>demo2.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+   
+<link rel="shortcut icon" type="image/x-icon" href="images/Icon.png" />
+<link rel="stylesheet" type="text/css" href="styles/base.css" />
+
+</head>
+<body background="images/bg.gif">
+			 <span id="list3"><a href="#">赞无数据</a></span> 
+			 <span id="id"><a href="#">赞无数据2</a></span> 
+	
+	
+	<div id="authorgraph"><img alt="" src="images/autograph.gif"></div>
+	
+	<script type="text/javascript" src="scripts/jquery-1.8.2.js"></script>
+	<script type="text/javascript">
+		
+		/* 提交结果，执行ajax */
+		function btn(){
+			
+			/* var $btn = $("input.btn");//获取按钮元素 */
+			//给按钮绑定点击事件
+			/* $btn.bind("click",function(){ */
+				
+				$.ajax({
+					type:"post",
+					url:"test/test",//需要用来处理ajax请求的action,excuteAjax为处理的方法名，JsonAction为action名
+					/* data:{//设置数据源
+						name:$("input[name=name]").val(),
+						age:$("input[name=age]").val(),
+						position:$("input[name=position]").val()//这里不要加","  不然会报错，而且根本不会提示错误地方
+					}, */
+					dataType:"json",//设置需要返回的数据类型
+					success:function(tt){
+					    //将数据转换成json类型，可以把data用alert()输出出来看看到底是什么样的结构   
+						var json = eval(tt); //数组   
+		                var tt = "";
+		                $.each(json, function (key) {
+		                    //循环获取数据  
+		                    var Id = json[key].id;
+		                    var Name = json[key].type_name;
+
+		                    $("#id").append(Id);
+		                    $("#id").append("<br/>");
+		                    
+		                 	tt +=  Name ;
+		                    tt += "<br/>";
+		                });
+		                /* $("#list3").html(''); */
+		                $("#list3").html(tt);
+					},
+					error:function(){
+						alert("系统异常，请稍后重试！");
+					}//这里不要加","
+				});
+		/* 	}); */
+		}
+	
+		/* 页面加载完成，绑定事件 */
+		$(document).ready(function(){			
+			btn();//点击提交，执行ajax
+		});
+	</script>
+</body>
+</html>

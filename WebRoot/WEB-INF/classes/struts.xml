@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.custom.i18n.resources" value="globalMessages"/>
+	<constant name="struts.i18n.encoding" value="utf-8"/>
+	<!-- 服务器指定一个临时的路径  否则会上传失败 -->
+	<!-- <constant name="struts.multipart.saveDir" value="绝对路径"></constant>  此处的value为绝对路径，这一点很重要 -->
+    <constant name="struts.multipart.saveDir" value="/usr/local/apache-tomcat-7.0.68/webapps/Startup_0.1_Alpha/upload/"/>  
+	<constant name="struts.multipart.maxSize" value="30000000"></constant>
+
+		<!--解决乱码    -->
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant> 
+	
+	<!-- namespace="/"这个字段在有的情况下必须加，初步猜测这和struts2-core-2.xxx.jar的版本有关-->
+	<package name="user" extends="struts-default" namespace="/">
+		<action name="file" class="com.syf.util.FileUpload" method="upload">
+			<interceptor-ref name="fileUpload">
+				<!--<param name="allowedTypes">application/zip,application/octet-stream</param>-->
+				<param name="maximumSize">524288000</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"/>
+			<!-- 保存路径为当前项目WebRoot/upload -->
+			<param name="savePath">/upload</param>
+			<result name="success">index.jsp</result>
+			<result name="input">index.jsp</result>
+		</action>
+		
+		<action name="fileUpload" class="com.syf.action.UserServlet" method="imgUpload">
+ 			<param name="savePath">/upload</param>
+			<result name="imgUrl">jsonData.jsp</result>
+		</action> 
+		<action  name="*_*" class="com.syf.action.{1}Servlet" method="{2}">
+			<result name="success">/{2}_success.html</result>
+			<result name="fail">/registerFail.jsp</result>
+			<result name="list">/userlist.jsp</result>
+		</action>
+		<!-- 用户注册 -->
+		<action name="register" class="com.syf.action.UserServlet" method="register">
+			<result name="success">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 手机号是否已注册 -->
+		<action name="phone_num_check" class="com.syf.action.UserServlet" method="numCheck">
+			<result name="numCheck">jsonData.jsp</result>
+		</action>
+		<!-- 获取APP首页类型 -->
+		<action name="project_type_list" class="com.syf.action.ProjectTypeServlet" method="typeList">
+			<result name="typeList">jsonData.jsp</result>
+		</action>
+		<!-- 登陆 -->
+		<action name="user_login" class="com.syf.action.UserServlet" method="login">
+			<result name="success">jsonData.jsp</result>
+			<result name="ERROR101">jsonData.jsp</result>
+			<result name="ERROR102">jsonData.jsp</result>
+		</action>
+		<!-- 获取主页显示内容(下拉刷新) -->
+		<action name="project_list" class="com.syf.action.ProjectServlet" method="projectList">
+			<result name="projectList">jsonData.jsp</result>
+		</action>
+		<!-- 获取主页显示内容（上拉加载） -->
+		<action name="project_list_next" class="com.syf.action.ProjectServlet" method="projectListNext">
+			<result name="projectListNext">jsonData.jsp</result>
+		</action>
+		<!-- 获取项目详情展示 -->
+		<action name="project_detail" class="com.syf.action.ProjectServlet" method="projectDetail">
+			<result name="projectDetail">jsonData.jsp</result>
+		</action>
+		<!-- 查询我的项目 -->
+		<action name="my_project_list" class="com.syf.action.UserServlet" method="myProject">
+			<result name="myProject">jsonData.jsp</result>
+		</action>
+		<!-- 发布新项目 -->
+		<action name="my_project_add" class="com.syf.action.UserServlet" method="addProject">
+			<result name="addProject">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 删除我的项目 -->
+		<action name="my_project_delete" class="com.syf.action.UserServlet" method="deleteMyProject">
+			<result name="deleteMyProject">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 修改我的项目 -->
+		<action name="my_project_edit" class="com.syf.action.UserServlet" method="editMyProject">
+			<result name="editMyProject">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 关注项目 -->
+		<action name="project_focus" class="com.syf.action.UserServlet" method="projectFocus">
+			<result name="success">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 查询我关注的项目 -->
+		<action name="project_focus_info" class="com.syf.action.UserServlet" method="projectFocusInfo">
+			<result name="projectFocusInfo">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 删除我关注的项目 -->
+		<action name="project_focus_delete" class="com.syf.action.UserServlet" method="projectFocusDelete">
+			<result name="success">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 查询所属学校 -->
+		<action name="school_list" class="com.syf.action.UserServlet" method="schoolList">
+			<result name="schoolList">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 查询擅长技能 -->
+		<action name="skill_list" class="com.syf.action.UserServlet" method="skillList">
+			<result name="skillList">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 查询是否接受推送 -->
+		<action name="push_list" class="com.syf.action.UserServlet" method="pushList">
+			<result name="pushList">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 修改学校 -->
+		<action name="school_change" class="com.syf.action.UserServlet" method="schoolChange">
+			<result name="success">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 修改技能 -->
+		<action name="skill_change" class="com.syf.action.UserServlet" method="skillChange">
+			<result name="success">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 修改消息推送 -->
+		<action name="push_change" class="com.syf.action.UserServlet" method="pushChange">
+			<result name="success">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 验证+修改密码 -->
+		<action name="modifyPwd" class="com.syf.action.UserServlet" method="modifyPwd">
+			  <result name="modifyPwd">jsonData.jsp</result> 
+		</action>
+		<!-- 退出登陆 -->
+		<action name="exit" class="com.syf.action.UserServlet" method="exit">
+			<result name="success">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 第三方绑定 -->
+		<action name="third_bind" class="com.syf.action.UserServlet" method="thirdBind">
+			<result name="success">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 第三方账号登陆 -->
+		<action name="third_login" class="com.syf.action.UserServlet" method="thirdLogin">
+			<result name="success">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		  <action name="getToken" class="com.syf.action.UserServlet" method="getToken">
+			<result name="token">jsonData.jsp</result>
+		</action>   
+		<!-- 解除第三方账号 -->
+		<action name="cancel_bind" class="com.syf.action.UserServlet" method="cancelBind">
+			<result name="success">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 重置密码-->
+		<action name="reset_password" class="com.syf.action.UserServlet" method="resetPassword">
+			<result name="success">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 修改个人资料-->
+		<action name="modify_info" class="com.syf.action.UserServlet" method="modifyInfo">
+			<result name="success">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 查询热门项目|下拉刷新-->
+		<action name="pro_hot" class="com.syf.action.ProjectServlet" method="proHot">
+			<result name="proHot">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 查询热门项目|上拉加载-->
+		<action name="project_hot_next" class="com.syf.action.ProjectServlet" method="proHotListNext">
+			<result name="proHotListNext">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 第三方是否绑定查询-->
+		<action name="third_result" class="com.syf.action.ThirdLoginServlet" method="thirdResult">
+			<result name="thirdResult">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 超阳测试专用接口-->
+		<action name="RIM" class="com.syf.action.UserServlet" method="RIM">
+			<result name="RIM">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 实习经历添加-->
+		<action name="add_exper" class="com.syf.action.ExperienceServlet" method="addExper">
+			<result name="addExper">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 删除我的实习经历 -->
+		<action name="my_exper_delete" class="com.syf.action.ExperienceServlet" method="deleteMyExper">
+			<result name="deleteMyExper">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 编辑我的实习经历 -->
+		<action name="modify_exper" class="com.syf.action.ExperienceServlet" method="modifyExper">
+			<result name="success">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+		<!-- 查询我的实习经历 -->
+		<action name="list_exper" class="com.syf.action.ExperienceServlet" method="listExper">
+			<result name="listExper">jsonData.jsp</result>
+		</action>
+		<!-- APK版本更新 -->
+		<action name="check_version" class="com.syf.action.UpdateServlet" method="checkVersion">
+			<result name="success">jsonData.jsp</result>
+			<result name="failed">jsonData.jsp</result>
+		</action>
+	</package>
+
+</struts>   

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>项目分类</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+	<!-- 使用设备的宽度作为视图宽度并禁止初始的缩放-->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/hot.css">
+	
+	<!-- <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="bootstrap/js/jquery-2.2.3.min.js"></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"> 
+    
+  </head>
+  
+  <body>
+  	<div class="div">
+  		<div class="top">
+  				<table class="table1">
+				<tr>
+				<th class="th1">
+				 <div class="top_left">
+						 <img src="image/mark.png" class="img-responsive"> 
+				 </div>
+				 </th>
+				<!-- <th class="th1">
+					<a class="a_top" href="#">首页|</a><a class="a_top" href="#">APP|</a><a class="a_top" href="#">微信公众号|</a><a class="a_top" href="#">帮助中心|</a><a class="a_top" href="#">咨询电话:0000-0000000</a>
+				 </th> -->
+				 <th class="th1">
+				 <div class="top_right">
+				 	<a class="a_top" href="#">登陆|</a><a class="a_top" href="#">注册</a>
+				 	</div>
+				 </th>
+				</tr>
+				</table>
+				</div>
+  		
+  		<div class="center">
+  				<div class="center_top">
+				
+				<form action="test/project_list" method="post">			
+  					<span id="list3"></span>
+				</form>
+					<!-- <a href="#" class="btn btn-default btn-md active" role="button"><B>热门</B></a>
+					 <a href="#" class="btn btn-warning btn-md active" role="button"><B>电子商务</B></a> -->
+  					
+  				</div>
+  				
+  				
+  				
+  				<div class="center_bottom2">
+  					<div class="center_bottom_left">
+  					<div class="center_bottom_left1">
+							<img src="image/focuspro.jpg" class="img-responsive"> 
+  					</div>
+  					<div class="center_bottom_left2">
+							<img src="image/startpro.jpg" class="img-responsive"> 
+  					</div>
+  					</div>
+  					<div class="center_bottom_right">
+  					
+  						<div class="center_bottom_right1">
+  					  	  <div class="center_bottom_right1_left">
+  							<div class="center_bottom_right1_logo">
+  								<img src="image/logo.png" class="img-responsive">
+							</div>
+  							<div class="center_bottom_right1_focus">
+  								<img src="image/focus.png" class="img-responsive">
+  							</div>
+						 </div>
+						 
+						  <div class="center_bottom_right1_center">
+  								<img src="image/name.png" class="img-responsive">
+						  </div>
+						
+						  <div class="center_bottom_right1_right">
+  								<img src="image/name.png" class="img-responsive">
+						  </div>
+						 
+  					  </div>
+  					</div>
+  				</div>
+  					
+  					
+  				</div>
+  			<div class="bottom">
+  				<div class="text-center">
+  					<H4>
+  					<a class="a_top" href="#">首页|</a><a class="a_top" href="#">APP|</a><a class="a_top" href="#">微信公众号|</a><a class="a_top" href="#">帮助中心|</a><a class="a_top" href="#">咨询电话:0000-0000000</a>
+  					</H4>	
+  				</div>
+  			</div>
+  		</div>
+  		
+  		
+	<script type="text/javascript" src="scripts/jquery-1.8.2.js"></script>
+	<script type="text/javascript">
+		
+		/* 提交结果，执行ajax */
+		function btn(){
+			  /* var $btn = $("input.btn");//获取按钮元素   */
+			//给按钮绑定点击事件
+			/* $btn.bind("click",function(){ */
+				
+				$.ajax({
+					type:"post",
+					url:"test/test",//需要用来处理ajax请求的action,excuteAjax为处理的方法名，JsonAction为action名
+					/* data:{//设置数据源
+						name:$("input[name=name]").val(),
+						age:$("input[name=age]").val(),
+						position:$("input[name=position]").val()//这里不要加","  不然会报错，而且根本不会提示错误地方
+					}, */
+					dataType:"json",//设置需要返回的数据类型
+					success:function(tt){
+					    //将数据转换成json类型，可以把data用alert()输出出来看看到底是什么样的结构   
+						var json = eval(tt); //数组   
+		                var tt = "";
+		                $.each(json, function (key) {
+		                    //循环获取数据  
+		                    var Id = json[key].id;
+		                    var Name = json[key].type_name; 
+
+		                    
+		                  /*   var Id = value.id;
+		                    var Name = value.type_name; */
+		                    
+		                    $("#id").append(Id);
+		                    $("#id").append("<br/>");
+		                    
+		                 	/*   tt += Name ; */  
+/*  	                 		tt +="<a id='"+Id+"' href='javascript:void(0);' onclick='return my(this.id)' class='btn btn-default btn-md active' role='button'> <B>"+  Name+"</B></a>" ;   */
+ 	                 		tt +="<input id='"+Id+"' class='btn btn-default btn-md active' onclick='my(this.id)' role='button' type='button' value='"+Name+"'/> " ;  
+		                    
+		                });
+		                   $("#list3").html(tt);  
+					},
+					error:function(){
+						alert("系统异常，请稍后重试！");
+					}//这里不要加","
+				});
+		/* 	}); */
+		}
+	
+		/* 页面加载完成，绑定事件 */
+		$(document).ready(function(){			
+			btn();//点击提交，执行ajax
+		});
+	</script>
+	
+	
+	 
+	<SCRIPT type="text/JavaScript">
+   function my(id)
+{
+        try
+        {		
+        	   alert(id);//获取button的value属性
+        }
+        catch(e)
+        {
+                return false;
+        }
+}   
+</script>
+  
+  </body>
+</html>
